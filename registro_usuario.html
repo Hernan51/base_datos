@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Concesionaria de Autos - Registro de Usuario</title>
+    <style>
+        body {
+            font-family: 'Arial, sans-serif';
+            background-color: #e6f7e3;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #4caf50;
+        }
+
+        .user-registration-container {
+            background-color: #ffffff;
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+            max-width: 400px;
+            margin: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="tel"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #4caf50;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-registration-container">
+        <h1>Registro de Usuario</h1>
+        <form id="user-registration-form">
+
+            <label for="nombre">Nombre completo:</label>
+            <input type="text" id="nombre" required>
+
+            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" required>
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" required>
+
+            <label for="telefono">Número de teléfono:</label>
+            <input type="tel" id="telefono" required>
+
+
+            <label for="correo">Correo electrónico:</label>
+            <input type="email" id="correo" required>
+
+            <button type="button" onclick="registrarUsuario()">Registrar Usuario</button>
+        </form>
+    </div>
+
+    <script>
+        function registrarUsuario() {
+            // Recopilar datos del formulario
+            var nombre = document.getElementById('nombre').value;
+            var fechaNacimiento = document.getElementById('fecha_nacimiento').value;
+            var direccion = document.getElementById('direccion').value;
+            var telefono = document.getElementById('telefono').value;
+            var correo = document.getElementById('correo').value;
+
+            if (telefono.length !== 10 || !/^\d{10}$/.test(telefono)) {
+                alert("Por favor, ingrese un número de teléfono válido con 10 dígitos.");
+                return;
+            }
+            // Crear un objeto con los datos del formulario
+            var datosUsuario = {
+                nombre: nombre,
+                fechaNacimiento: fechaNacimiento,
+                direccion: direccion,
+                telefono: telefono,
+                correo: correo
+            };
+
+            // Enviar datos al servidor utilizando AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:5000/registrar-usuario", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // La solicitud ha sido completada con éxito
+                    alert(xhr.responseText);
+                }
+            };
+
+            // Convertir el objeto a JSON y enviarlo
+            xhr.send(JSON.stringify(datosUsuario));
+
+            // Agregar un listener para el evento input en el campo de teléfono
+            document.getElementById('telefono').addEventListener('input', function () {
+            var telefonoInput = this;
+            // Eliminar cualquier caracter que no sea un número
+            telefonoInput.value = telefonoInput.value.replace(/\D/g, '');
+        });
+        }
+    </script>
+</body>
+</html>

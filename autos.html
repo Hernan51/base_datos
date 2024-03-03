@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Informe de Ventas por Marca y Modelo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Informe de Ventas por Marca y Modelo</h1>
+    <button onclick="obtenerInformeVentas()">Obtener Informe</button>
+    <div id="tablaVentas"></div>
+
+   <!-- ... (resto de tu HTML) -->
+
+<script>
+    function obtenerInformeVentas() {
+        fetch('http://localhost:5000/informeVentasPorMarcaModelo')
+            .then(response => response.json())
+            .then(data => {
+                const tablaVentas = document.getElementById('tablaVentas');
+                tablaVentas.innerHTML = ''; // Limpiar contenido anterior si hay alguno
+
+                const table = document.createElement('table');
+                const header = table.createTHead();
+                const row = header.insertRow();
+                row.insertCell().textContent = 'Marca';
+                row.insertCell().textContent = 'Modelo';
+                row.insertCell().textContent = 'Total';
+
+                const body = table.createTBody();
+                data.forEach(rowData => {
+                    const newRow = body.insertRow();
+                    newRow.insertCell().textContent = rowData.marca_auto; // Acceder por nombre de columna
+                    newRow.insertCell().textContent = rowData.modelo_auto; // Acceder por nombre de columna
+                    newRow.insertCell().textContent = rowData.total; // Acceder por nombre de columna
+                });
+
+                tablaVentas.appendChild(table);
+            })
+            .catch(error => console.error('Error al obtener el informe de ventas:', error));
+    }
+</script>
+
+<!-- ... (resto de tu HTML) -->
+
+</body>
+</html>

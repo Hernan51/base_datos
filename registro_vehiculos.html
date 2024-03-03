@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Concesionaria de Autos</title>
+    <style>
+        body {
+                   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                   text-align: center;
+                   background-color: #e6f7e3;
+                   margin: 0;
+                   padding: 0;
+                   display: flex;
+                   flex-direction: column;
+                   align-items: center;
+                   justify-content: center;
+                   min-height: 100vh;
+               }
+       
+               h1 {
+                   color: #4caf50;
+                   font-size: 2em;
+                   margin-bottom: 20px;
+               }
+       
+               form {
+                   width: 60%;
+                   margin: 20px auto;
+                   padding: 20px;
+                   background-color: #ffffff;
+                   border-radius: 8px;
+                   box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
+                   box-sizing: border-box;
+               }
+       
+               label {
+                   display: block;
+                   font-weight: bold;
+                   margin-top: 10px;
+                   color: #4caf50;
+                   font-size: 1.1em;
+               }
+       
+               input,
+               select {
+                   width: 100%;
+                   padding: 12px;
+                   margin: 8px 0;
+                   border: 1px solid #4caf50;
+                   border-radius: 5px;
+                   box-sizing: border-box;
+                   font-size: 1em;
+               }
+       
+               button {
+                   background-color: #4caf50;
+                   color: #ffffff;
+                   padding: 12px 20px;
+                   border: none;
+                   border-radius: 5px;
+                   cursor: pointer;
+                   font-size: 1.2em;
+                   transition: background-color 0.3s;
+               }
+       
+               button:hover {
+                   background-color: #45a049;
+               }
+       
+           </style>
+</head>
+<body>
+    <h1>Registro de Vehículos</h1>
+    <form id="vehicle-form">
+        <label>Marca:</label>
+        <input type="text" id="marca" required><br>
+
+        <label>Modelo:</label>
+        <input type="text" id="modelo" required><br>
+
+        <label>Año:</label>
+        <input type="number" id="anio" required><br>
+
+        <label>Kilometraje:</label>
+        <input type="number" id="kilometraje" required><br>
+
+        <label>Precio:</label>
+        <input type="number" id="precio" required><br>
+
+        <label>Estado:</label>
+        <select id="estado" required>
+            <option value="Nuevo">Nuevo</option>
+            <option value="Usado">Semi-nuevo</option>
+        </select><br>
+
+        <button type="button" onclick="agregarVehiculo()">Agregar Vehículo</button>
+    </form>
+
+    <!-- Otras secciones y formularios para gestionar clientes, transacciones, mantenimiento, etc. -->
+
+    <script>
+        function agregarVehiculo() {
+            // Recopilar datos del formulario y realizar acciones, como enviar a una base de datos o mostrar en una tabla.
+            var marca = document.getElementById('marca').value;
+            var modelo = document.getElementById('modelo').value;
+            var anio = document.getElementById('anio').value;
+            var kilometraje = document.getElementById('kilometraje').value;
+            var precio = document.getElementById('precio').value;
+            var estado = document.getElementById('estado').value;
+
+            // Aquí puedes realizar acciones, como enviar los datos a una base de datos o mostrarlos en una tabla.
+        }
+    </script>
+</body>
+</html>

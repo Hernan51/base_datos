@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Concesionaria de Autos - Consulta de Historial de Mantenimiento</title>
+    <link rel="stylesheet" type="text/css" href="css/style2.css">
+</head>
+<body>
+    <div class="consulta-container">
+        <h1>Consulta de Historial de Mantenimiento</h1>
+        <form id="consultaForm">
+            <label for="modeloAuto">Modelo de Auto:</label>
+            <select id="modeloAuto" name="modeloAuto">
+                <!-- Las opciones se cargarán dinámicamente aquí -->
+            </select><br><br>
+            
+            <label for="sucursal">Sucursal:</label>
+            <select id="sucursal" name="sucursal">
+                <!-- Las opciones se cargarán dinámicamente aquí -->
+            </select><br><br>
+
+            <button type="button" onclick="consultar()">Consultar</button>
+        </form>
+
+        <ul id="resultadoConsulta">
+            <!-- Aquí se mostrarán los resultados -->
+        </ul>
+    </div>
+
+    <script>
+        // Función para cargar los modelos de auto
+        fetch('http://localhost:5000/obtener-modelos-auto')
+            .then(response => response.json())
+            .then(data => {
+                const selectModeloAuto = document.getElementById('modeloAuto');
+                data.forEach(modelo => {
+                    const option = document.createElement('option');
+                    option.value = modelo.id_auto; // Ajustar a la estructura real de tu base de datos
+                    option.text = modelo.modelo_auto; // Ajustar a la estructura real de tu base de datos
+                    selectModeloAuto.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
+        // Función para cargar las sucursales
+        fetch('http://localhost:5000/obtenerSucursales')
+            .then(response => response.json())
+            .then(data => {
+                const selectSucursal = document.getElementById('sucursal');
+                data.forEach(sucursal => {
+                    const option = document.createElement('option');
+                    option.value = sucursal.id; // Ajustar a la estructura real de tu base de datos
+                    option.text = sucursal.direccion; // Ajustar a la estructura real de tu base de datos
+                    selectSucursal.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
+        // Función para realizar la consulta
+        function consultar() {
+            const modeloAuto = document.getElementById('modeloAuto').value;
+            const sucursal = document.getElementById('sucursal').value;
+
+            fetch(`http://localhost:5000/consulta/historial?modeloAuto=${modeloAuto}&sucursal=${sucursal}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultadoConsulta = document.getElementById('resultadoConsulta');
+                    resultadoConsulta.innerHTML = ''; // Limpiar resultados anteriores
+
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = `ID Auto: ${item.id_auto}, Modelo: ${item.modelo_auto}, Marca: ${item.marca_auto}, Dirección Sucursal: ${item.direccion_sucursal}`;
+                        resultadoConsulta.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

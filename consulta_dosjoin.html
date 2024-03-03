@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consulta de Compras por Sucursal</title>
+    <link rel="stylesheet" href="css/style1.css">
+</head>
+<body>
+    <h1>Consulta de Compras por Sucursal</h1>
+    <form id="consultaForm">
+        <label for="sucursal">Sucursal:</label>
+        <select id="sucursal" name="sucursal">
+            <!-- Opciones de sucursales se cargarán dinámicamente aquí -->
+        </select><br><br>
+
+        <button type="button" onclick="realizarConsulta()">Consultar</button>
+    </form>
+
+    <ul id="resultadoConsulta">
+        <!-- Aquí se mostrarán los resultados -->
+    </ul>
+
+    <script>
+        function realizarConsulta() {
+            const sucursal = document.getElementById('sucursal').value;
+
+            // Realizar la petición al servidor
+            fetch(`http://localhost:5000/consultarCompras?sucursal=${sucursal}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultadoConsulta = document.getElementById('resultadoConsulta');
+                    resultadoConsulta.innerHTML = ''; // Limpiar resultados anteriores
+
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = `Cliente: ${item.nombre_completo}, Fecha: ${item.fecha_compra}, Producto: ${item.tipo}, Costo: ${item.costo}`;
+                        resultadoConsulta.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Cargar opciones de sucursales al cargar la página
+        fetch('http://localhost:5000/obtenerSucursales')
+            .then(response => response.json())
+            .then(data => {
+                const selectSucursal = document.getElementById('sucursal');
+                data.forEach(sucursal => {
+                    const option = document.createElement('option');
+                    option.value = sucursal.id; // Ajustar a la estructura real de tu base de datos
+                    option.text = sucursal.direccion; // Ajustar a la estructura real de tu base de datos
+                    selectSucursal.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

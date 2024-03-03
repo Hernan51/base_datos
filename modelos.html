@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Modelos de Autos</title>
+</head>
+<body>
+  <h1>Lista de Modelos de Autos</h1>
+  <ul id="modeloList"></ul>
+  
+  <button onclick="redirectToPaymentPage()">Comprar</button>
+
+
+  <script>
+    // Realizar una solicitud AJAX para obtener los datos de la API
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/obtener-modelos-auto');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error al obtener datos:', error);
+      }
+    };
+
+    const updateList = async () => {
+      const modeloListElement = document.getElementById('modeloList');
+      const data = await fetchData();
+
+      if (data) {
+        modeloListElement.innerHTML = '';
+
+        data.forEach(modelo => {
+          const listItem = document.createElement('li');
+          listItem.innerHTML = `ID: ${modelo.id_auto} - Marca: ${modelo.marca_auto} - Modelo: ${modelo.modelo_auto}
+                                <button onclick="buyModel(${modelo.id_auto})">Comprar</button>`;
+          modeloListElement.appendChild(listItem);
+        });
+      }
+    };
+
+    window.onload = updateList;
+
+    function buyModel(modelId) {
+      window.location.href = `metodo_pago.html?id=${modelId}`;
+    }
+  </script>
+</body>
+</html>

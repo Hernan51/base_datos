@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Concesionaria de Autos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .option {
+            margin: 10px;
+            padding: 10px 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .option:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .corner-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .corner-buttons a {
+            margin: 5px;
+            padding: 10px 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .corner-buttons a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .tabsNav {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .tab {
+            cursor: pointer;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            background-color: #f2f2f2;
+        }
+
+        .tab.active {
+            background-color: #ddd;
+        }
+
+        .table-container {
+            display: none;
+            width: 100%; /* Ajuste para que ocupe todo el ancho */
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Resto de tus estilos... */
+
+    </style>
+</head>
+
+<body>
+    <!-- Tu contenido HTML... -->
+
+    <div class="tabsNav">
+        <div class="tab" onclick="showTable('modelo-auto-tab')">
+            <input type="radio" name="tabs" id="t1" checked>
+            <label for="t1">Tab 1</label>
+        </div>
+        <div class="tab" onclick="showTable('empleados-tab')">
+            <input type="radio" name="tabs" id="t2">
+            <label for="t2">Tab 2</label>
+        </div>
+        <div class="tab" onclick="showTable('Proveedores')">
+            <input type="radio" name="tabs" id="t3">
+            <label for="t3">Tab 3</label>
+        </div>
+        <div class="tab" onclick="showTable('Clientes')">
+            <input type="radio" name="tabs" id="t4">
+            <label for="t4">Tab 4</label>
+        </div>
+        <div class="tab" onclick="showTable('Seguros')">
+            <input type="radio" name="tabs" id="t5">
+            <label for="t5">Tab 5</label>
+        </div>
+        <!-- Agrega más pestañas según tus necesidades -->
+    </div>
+
+    <!-- Contenedores de tabla... -->
+    <div id="modelo-auto-tab" class="table-container active">
+        <h2>Modelo auto</h2>
+        <form id="modelo-auto-form">
+            <label for="modelo-auto">Modelo auto:</label>
+            <input type="text" id="modelo-auto" required>
+    
+            <label for="marca-auto">Marca auto:</label>
+            <input type="text" id="marca-auto" required>
+    
+            <label for="caracteristicas-auto">Características auto:</label>
+            <input type="text" id="caracteristicas-auto" required>
+    
+            <label for="inventario-auto">Inventario auto:</label>
+            <input type="text" id="inventario-auto" required>
+    
+            <button type="button" onclick="addRow('modelo-auto')">Agregar Modelo Auto</button>
+        </form>
+        <table id="modelo-auto-table">
+            <thead>
+                <tr>
+                    <th>Modelo auto</th>
+                    <th>Marca auto</th>
+                    <th>Características auto</th>
+                    <th>Inventario auto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de datos se agregarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+    
+
+    <div id="empleados-tab" class="table-container">
+        <h2>Empleados</h2>
+        <form id="empleados-form">
+            <label for="nombre-empleado">Nombre empleado:</label>
+            <input type="text" id="nombre-empleado" required>
+    
+            <label for="cargo-empleado">Cargo empleado:</label>
+            <input type="text" id="cargo-empleado" required>
+    
+            <label for="fecha-contratacion">Fecha contratación:</label>
+            <input type="date" id="fecha-contratacion" required>
+    
+            <button type="button" onclick="addRow('empleados')">Agregar Empleado</button>
+        </form>
+        <table id="empleados-table">
+            <thead>
+                <tr>
+                    <th>Nombre empleado</th>
+                    <th>Cargo empleado</th>
+                    <th>Fecha contratación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de datos se agregarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="Proveedores" class="table-container">
+        <h2>Proveedores</h2>
+        <form id="proveedores-form">
+            <label for="nombre-proveedor">Nombre proveedor:</label>
+            <input type="text" id="nombre-proveedor" required>
+    
+            <label for="contacto-proveedor">Contacto proveedor:</label>
+            <input type="text" id="contacto-proveedor" required>
+    
+            <label for="id-productos-servicios">ID productos servicios:</label>
+            <input type="text" id="id-productos-servicios" required>
+    
+            <button type="button" onclick="addRow('proveedores')">Agregar Proveedor</button>
+        </form>
+        <table id="proveedores-table">
+            <thead>
+                <tr>
+                    <th>Nombre proveedor</th>
+                    <th>Contacto proveedor</th>
+                    <th>ID productos servicios</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de datos se agregarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    
+    <div id="Clientes" class="table-container">
+        <h2>Clientes</h2>
+        <form id="clientes-form">
+            <label for="nombre-completo">Nombre completo:</label>
+            <input type="text" id="nombre-completo" required>
+    
+            <label for="fecha-nacimiento">Fecha nacimiento:</label>
+            <input type="date" id="fecha-nacimiento" required>
+    
+            <label for="direccion-cliente">Dirección:</label>
+            <input type="text" id="direccion-cliente" required>
+    
+            <label for="telefono-cliente">Número de teléfono:</label>
+            <input type="text" id="telefono-cliente" pattern="\d{10}" required>
+    
+            <label for="correo-cliente">Correo electrónico:</label>
+            <input type="email" id="correo-cliente" required>
+    
+            <button type="button" onclick="addRow('clientes')">Agregar Cliente</button>
+        </form>
+        <table id="clientes-table">
+            <thead>
+                <tr>
+                    <th>Nombre completo</th>
+                    <th>Fecha nacimiento</th>
+                    <th>Dirección</th>
+                    <th>Número de teléfono</th>
+                    <th>Correo electrónico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de datos se agregarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    
+    <div id="Seguros" class="table-container">
+        <h2>Seguros</h2>
+        <form id="seguros-form">
+            <label for="tipo-seguro">Tipo seguro:</label>
+            <input type="text" id="tipo-seguro" required>
+    
+            <label for="id-contratacion">ID contratación:</label>
+            <input type="text" id="id-contratacion" required>
+    
+            <label for="id-auto">ID auto:</label>
+            <input type="text" id="id-auto" required>
+    
+            <label for="costo-seguro">Costo seguro:</label>
+            <input type="text" id="costo-seguro" required>
+    
+            <button type="button" onclick="addRow('seguros')">Agregar Seguro</button>
+        </form>
+        <table id="seguros-table">
+            <thead>
+                <tr>
+                    <th>Tipo seguro</th>
+                    <th>ID contratación</th>
+                    <th>ID auto</th>
+                    <th>Costo seguro</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de datos se agregarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const tables = ['modelo-auto-tab', 'empleados-tab', 'Proveedores', 'Clientes', 'Seguros']; // Agrega más tablas según tus necesidades
+
+        function showTable(tableName) {
+            tables.forEach(table => {
+                document.getElementById(table).classList.remove('active');
+            });
+
+            document.getElementById(tableName).classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

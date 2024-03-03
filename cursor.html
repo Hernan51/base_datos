@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Consulta de Historial de Servicios por Auto</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+        color: #444;
+    }
+    input[type="number"] {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 200px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    #resultado {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+    p {
+        margin: 5px 0;
+        color: #333;
+    }
+</style>
+</head>
+<body>
+    <h1>Historial de servicios</h1>
+  <label for="autoIdInput">Ingresa el ID del Auto:</label>
+  <input type="number" id="autoIdInput" name="autoIdInput">
+  <button onclick="llamarProcedimientoAlmacenado()">Consultar Historial de Servicios</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    function llamarProcedimientoAlmacenado() {
+        const autoId = document.getElementById('autoIdInput').value;
+        if (!autoId) {
+            alert('Por favor ingresa un ID de auto');
+            return;
+        }
+
+        fetch(`http://localhost:5000/llamarProcedimiento?autoId=${autoId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Resultado del procedimiento almacenado:', data);
+                mostrarResultado(data); // Función para mostrar los resultados
+            })
+            .catch(error => console.error('Error al llamar al procedimiento almacenado:', error));
+    }
+
+    function mostrarResultado(data) {
+        const resultadoDiv = document.getElementById('resultado');
+        resultadoDiv.innerHTML = ''; // Limpiar contenido anterior si lo hay
+
+        const resultadoHTML = document.createElement('p');
+        resultadoHTML.textContent = 'Resultado:';
+        resultadoDiv.appendChild(resultadoHTML);
+
+        // Mostrar los resultados obtenidos
+        const servicioRealizado = document.createElement('p');
+        servicioRealizado.textContent = data[0][0].Resultado; // Actualiza la forma de acceder a los datos
+        resultadoDiv.appendChild(servicioRealizado);
+    }
+</script>
+
+</body>
+</html>

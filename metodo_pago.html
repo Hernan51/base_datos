@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Métodos de Pago</title>
+</head>
+<body>
+  <h1>Formulario de Métodos de Pago</h1>
+
+  <form id="paymentForm">
+    <label for="fechaPago">Fecha de Pago:</label>
+    <input type="date" id="fechaPago" name="fechaPago" required><br>
+
+    <label for="montoPagar">Monto a Pagar:</label>
+    <input type="number" id="montoPagar" name="montoPagar" step="0.01" required><br>
+
+    <label for="tipoPago">Tipo de Pago:</label>
+    <input type="text" id="tipoPago" name="tipoPago" required><br>
+
+    <button type="button" onclick="submitPayment()">Enviar Pago</button>
+  </form>
+
+  <script>
+    function submitPayment() {
+      const fechaPago = document.getElementById('fechaPago').value;
+      const montoPagar = document.getElementById('montoPagar').value;
+      const tipoPago = document.getElementById('tipoPago').value;
+
+      // Realizar una solicitud AJAX para enviar los datos a la API
+      fetch('http://localhost:5000/agregar-metodo-pago', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fecha_pago: fechaPago,
+          monto_pagar: montoPagar,
+          tipo_pago: tipoPago,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Respuesta del servidor:', data);
+        // Puedes redirigir a otra página o realizar otras acciones después de enviar el pago
+      })
+      .catch(error => {
+        console.error('Error al enviar el pago:', error);
+      });
+    }
+  </script>
+</body>
+</html>

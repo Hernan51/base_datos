@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Agrega esto en el head de tu HTML -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Concesionaria de Autos</title>
+    <style>
+        body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background-color: #f5f5f5;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+        
+                h1 {
+                    color: #008000;
+                    margin-top: 20px;
+                }
+        
+                .options, .corner-buttons, .tabsNav {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 20px;
+                }
+        
+                .option, .corner-buttons a, .tab {
+                    margin: 10px;
+                    padding: 10px 20px;
+                    border: 2px solid #008000;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    color: #008000;
+                    font-weight: bold;
+                    transition: background-color 0.3s, color 0.3s;
+                }
+        
+                .option:hover, .corner-buttons a:hover, .tab:hover {
+                    background-color: #a0c9a9;
+                    color: #fff;
+                    
+                }
+        
+                .tabsNav {
+                    list-style: none;
+                    padding: 0;
+                    margin-top: 20px;
+                }
+        
+                .tab.active {
+                    background-color: #c0e8c0;
+                }
+        
+                .table-container {
+                    display: none;
+                    width: 100%;
+                    margin-top: 20px;
+                }
+        
+                .table-container.active {
+                    display: block;
+                }
+        
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+        
+                table, th, td {
+                    border: 1px solid #008000;
+                }
+        
+                th, td {
+                    padding: 12px;
+                    text-align: left;
+                }
+        
+                th {
+                    background-color: #e0ffe0;
+                }
+        
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    max-width: 400px;
+                    margin: 20px auto;
+                }
+        
+                label {
+                    margin-bottom: 8px;
+                    color: #008000;
+                }
+        
+                input {
+                    padding: 8px;
+                    margin-bottom: 16px;
+                    border: 1px solid #008000;
+                    border-radius: 4px;
+                }
+        
+                button {
+                    background-color: #008000;
+                    color: #fff;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.3s, color 0.3s;
+                }
+        
+                button:hover {
+                    background-color: #006600;
+                }
+        
+                h2 {
+            text-align: center;
+        }
+        
+            </style>
+</head>
+
+<body>
+    <h1>Bienvenido a la Concesionaria de Autos</h1>
+    <div class="options">
+        <a class="option" href="registro_vehiculos.html">Registro de Vehículos</a>
+        <a class="option" href="seguimiento_vehiculos.html">Seguimiento de Vehículo</a>
+        <a class="option" href="gestion_clientes.html">Gestión de Clientes</a>
+        <a class="option" href="transacciones.html">Transacciones de Venta y Alquiler</a>
+        <a class="option" href="mantenimiento.html">Seguimiento de Mantenimiento</a>
+        <a class="option" href="informes.html">Generación de Informes</a>
+    </div>
+    <div class="corner-buttons">
+        <a href="registro_usuario.html">Registrar Usuario</a>
+        <a href="login.html">Login</a>
+    </div>
+
+    <form id="modelo-auto-form">
+        <label for="modelo_auto">Modelo Auto:</label>
+        <input type="text" id="modelo_auto" name="modelo_auto" required>
+
+        <label for="marca_auto">Marca Auto:</label>
+        <input type="text" id="marca_auto" name="marca_auto" required>
+
+        <label for="caracteristicas_auto">Características Auto:</label>
+        <input type="text" id="caracteristicas_auto" name="caracteristicas_auto" required>
+
+        <label for="inventario_auto">Inventario Auto:</label>
+        <input type="number" id="inventario_auto" name="inventario_auto" required>
+
+        <button type="button" onclick="registrarModeloAuto()">Registrar Modelo Auto</button>
+    </form>
+
+    <div id="tabla-row-1" class="table-row">
+        <!-- ... Tu formulario actual ... -->
+    </div>
+
+    <!-- Nueva sección para la tabla -->
+    <div id="tabla-row-2" class="table-row">
+        <div id="modelo-auto-tab" class="table-container">
+            <h2>Modelo auto</h2>
+            <table id="modelo-auto-table">
+                <thead>
+                    <tr>
+                        <th>Modelo auto</th>
+                        <th>Marca auto</th>
+                        <th>Características auto</th>
+                        <th>Inventario auto</th>
+                        <th>ID</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-modelo-auto-tab-body">
+                    <!-- Filas de datos se agregarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <form id="empleado-form">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="cargo">Cargo:</label>
+        <input type="text" id="cargo" name="cargo" required>
+
+        <label for="fecha_contratacion">Fecha de Contratación:</label>
+        <input type="date" id="fecha_contratacion" name="fecha_contratacion" required>
+
+        <button type="button" onclick="registrarEmpleado()">Registrar Empleado</button>
+    </form>
+
+    <div id="tabla-empleado-row-1" class="table-row">
+        <!-- ... Otros elementos HTML ... -->
+    </div>
+
+    <!-- Nueva sección para la tabla de empleados -->
+    <div id="tabla-empleado-row-2" class="table-row">
+        <div id="empleado-tab" class="table-container">
+            <h2>Empleados</h2>
+            <table id="empleado-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                        <th>Fecha de Contratación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-empleado-tab-body">
+                    <!-- Filas de datos se agregarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Nuevo formulario para dar de alta información de proveedores -->
+    <form id="proveedor-form">
+        <label for="nombre_proveedor">Nombre del Proveedor:</label>
+        <input type="text" id="nombre_proveedor" name="nombre_proveedor" required>
+
+        <label for="contacto_proveedor">Contacto del Proveedor:</label>
+        <input type="text" id="contacto_proveedor" name="contacto_proveedor" required>
+
+        <label for="id_productos_servicios">ID Productos/Servicios:</label>
+        <input type="number" id="id_productos_servicios" name="id_productos_servicios" required>
+
+        <button type="button" onclick="registrarProveedor()">Registrar Proveedor</button>
+    </form>
+
+    <div id="tabla-row-3" class="table-row">
+        <div id="proveedores-tab" class="table-container">
+            <h2>Proveedores</h2>
+            <table id="proveedores-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Contacto</th>
+                        <th>ID Productos/Servicios</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-proveedores-tab-body">
+                    <!-- Filas de datos se agregarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Agrega esto en tu formulario -->
+    <form id="seguros-form">
+        <label for="tipo_seguro">Tipo de Seguro:</label>
+        <input type="text" id="tipo_seguro" name="tipo_seguro" required>
+
+        <label for="id_contratacion">ID Contratación:</label>
+        <input type="number" id="id_contratacion" name="id_contratacion" required>
+
+        <label for="id_auto">ID Auto:</label>
+        <input type="number" id="id_auto" name="id_auto" required>
+
+        <label for="costo_seguro">Costo de Seguro:</label>
+        <input type="number" id="costo_seguro" name="costo_seguro" required>
+
+        <button type="button" onclick="registrarSeguro()">Registrar Seguro</button>
+    </form>
+
+    <div id="tabla-row-4" class="table-row">
+        <div id="seguros-tab" class="table-container">
+            <h2>Seguros</h2>
+            <table id="seguros-table">
+                <thead>
+                    <tr>
+                        <th>Tipo de Seguro</th>
+                        <th>ID Contratación</th>
+                        <th>ID Auto</th>
+                        <th>Costo de Seguro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-seguros-tab-body">
+                    <!-- Filas de datos se agregarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        function registrarSeguro() {
+            // Obtener datos del formulario de seguros
+            const tipoSeguro = $('#tipo_seguro').val();
+            const idContratacion = $('#id_contratacion').val();
+            const idAuto = $('#id_auto').val();
+            const costoSeguro = $('#costo_seguro').val();
+
+            // Construir objeto con datos
+            const datosSeguro = {
+                tipo_seguro: tipoSeguro,
+                id_contratacion: idContratacion,
+                id_auto: idAuto,
+                costo_seguro: costoSeguro
+            };
+
+            // Realizar solicitud AJAX con jQuery
+            $.ajax({
+                url: 'http://localhost:5000/agregar-seguro',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(datosSeguro),
+                success: function (data) {
+                    console.log(data);
+                    alert(data); // Muestra la respuesta del servidor (éxito o error)
+                    // Luego de agregar un seguro, actualiza la tabla
+                    updateSegurosTableData();
+
+                },
+                error: function (error) {
+                    console.error('Error al realizar la solicitud:', error);
+                    alert('Error al enviar los datos al servidor');
+                }
+            });
+        }
+
+        async function updateSegurosTableData() {
+            const response = await fetch('http://localhost:5000/obtener-seguros');
+            const data = await response.json();
+
+            fillSegurosTable(data);
+            showTable('seguros-tab');
+        }
+
+        function fillSegurosTable(data) {
+            const tableBody = document.getElementById('tabla-seguros-tab-body');
+            if (!tableBody) {
+                console.error("No se encontró el elemento con ID 'tabla-seguros-tab-body'");
+                return;
+            }
+
+            tableBody.innerHTML = '';
+
+            data.forEach(rowData => {
+                const row = document.createElement('tr');
+                ['tipo_seguro', 'id_contratacion', 'id_auto', 'costo_seguro'].forEach(field => {
+                    const cell = document.createElement('td');
+                    cell.textContent = rowData[field];
+                    row.appendChild(cell);
+                });
+
+                // Agrega la celda para el botón de eliminar
+                const deleteCell = document.createElement('td');
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.addEventListener('click', () => eliminarSeguro(rowData.id)); // Llama a la función eliminarSeguro con el ID correspondiente
+                deleteCell.appendChild(deleteButton);
+                row.appendChild(deleteCell);
+
+                tableBody.appendChild(row);
+            });
+
+
+        }
+
+        function eliminarSeguro(idContratacion) {
+            // Realizar solicitud AJAX para eliminar el seguro por id_contratacion
+            $.ajax({
+                url: `http://localhost:5000/eliminar-dato/${idContratacion}`,
+                type: 'DELETE',
+                success: function (data) {
+                    console.log(data);
+                    alert(data); // Muestra la respuesta del servidor (éxito o error)
+                    // Luego de eliminar un seguro, actualiza la tabla
+                    updateSegurosTableData();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error al realizar la solicitud:', textStatus, errorThrown);
+                    alert('Error al enviar la solicitud al servidor');
+                }
+            });
+        }
+
+
+
+
+        // Llama a la nueva ruta al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSegurosTableData();
+        });
+
+
+
+        async function updateProveedoresTable() {
+            const response = await fetch('http://localhost:5000/obtener-proveedores');
+            const data = await response.json();
+
+            fillTable('proveedores-tab', data);
+            showTable('proveedores-tab');
+        }
+
+        // Llama a la nueva ruta al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProveedoresTable();
+        });
+        function registrarProveedor() {
+            // Obtener datos del formulario
+            const nombreProveedor = $('#nombre_proveedor').val();
+            const contactoProveedor = $('#contacto_proveedor').val();
+            const idProductosServicios = $('#id_productos_servicios').val();
+
+            // Construir objeto con datos
+            const datosProveedor = {
+                nombre: nombreProveedor,
+                contacto: contactoProveedor,
+                id_productos_servicios: idProductosServicios
+            };
+
+            // Realizar solicitud AJAX con jQuery
+            $.ajax({
+                url: 'http://localhost:5000/agregar-proveedor',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(datosProveedor),
+                success: function (data) {
+                    console.log(data);
+                    alert(data); // Muestra la respuesta del servidor (éxito o error)
+                    // Luego de agregar un proveedor, actualiza la tabla
+                    updateTableData('proveedor-tab', 'obtener-proveedores');
+                },
+                error: function (error) {
+                    console.error('Error al realizar la solicitud:', error);
+                    alert('Error al enviar los datos al servidor');
+                }
+            });
+        }
+
+
+        function registrarModeloAuto() {
+            // Obtener datos del formulario
+            const modeloAuto = $('#modelo_auto').val();
+            const marcaAuto = $('#marca_auto').val();
+            const caracteristicasAuto = $('#caracteristicas_auto').val();
+            const inventarioAuto = $('#inventario_auto').val();
+
+            // Construir objeto con datos
+            const datosModeloAuto = {
+                modeloAuto,
+                marcaAuto,
+                caracteristicasAuto,
+                inventarioAuto
+            };
+
+            // Realizar solicitud AJAX con jQuery
+            $.ajax({
+                url: 'http://localhost:5000/agregar-modelo-auto',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(datosModeloAuto),
+                success: function (data) {
+                    console.log(data);
+                    alert(data); // Muestra la respuesta del servidor (éxito o error)
+                    // Luego de agregar un modelo, actualiza la tabla
+                    updateTableData('modelo-auto-tab', 'obtener-modelos-auto');
+                },
+                error: function (error) {
+                    console.error('Error al realizar la solicitud:', error);
+                    alert('Error al enviar los datos al servidor');
+                }
+            });
+        }
+
+        function fillTable(tableName, data) {
+            const tableBody = document.getElementById(`tabla-${tableName}-body`);
+            if (!tableBody) {
+                console.error(`No se encontró el elemento con ID 'tabla-${tableName}-body'`);
+                return;
+            }
+
+            tableBody.innerHTML = '';
+
+            data.forEach(rowData => {
+                const row = document.createElement('tr');
+                Object.values(rowData).forEach(value => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+
+                // Agrega la celda para el botón de eliminar
+                const deleteCell = document.createElement('td');
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.addEventListener('click', () => eliminarSeguro(rowData.id)); // Llama a la función eliminarSeguro con el ID correspondiente
+                deleteCell.appendChild(deleteButton);
+                row.appendChild(deleteCell);
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Función para obtener y mostrar datos en la tabla al cargar la página
+        async function updateTableData(tabName, route) {
+            const response = await fetch(`http://localhost:5000/${route}`);
+            const data = await response.json();
+
+            if (tabName === 'modelo-auto-tab') {
+                fillTable(tabName, data);
+            }
+
+            showTable(tabName);
+        }
+
+        // Llama a la nueva ruta al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTableData('modelo-auto-tab', 'obtener-modelos-auto');
+            updateTableData('empleado-tab', 'obtener-empleados');
+            updateTableData('proveedor-tab', 'obtener-proveedores');
+            updateTableData('seguros-tab', 'obtener-seguros');
+        });
+
+
+        function showTable(tabName) {
+            const tab = document.getElementById(tabName);
+            tab.style.display = 'block';
+        }
+
+        function registrarEmpleado() {
+            const nombre = $('#nombre').val();
+            const cargo = $('#cargo').val();
+            const fechaContratacion = $('#fecha_contratacion').val();
+
+            const datosEmpleado = {
+                nombre,
+                cargo,
+                fechaContratacion
+            };
+
+            $.ajax({
+                url: 'http://localhost:5000/agregar-empleado',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(datosEmpleado),
+                success: function (data) {
+                    console.log(data);
+                    alert(data);
+                    updateTableData('empleado-tab', 'obtener-empleados');
+                },
+                error: function (error) {
+                    console.error('Error al realizar la solicitud:', error);
+                    alert('Error al enviar los datos al servidor');
+                }
+            });
+        }
+
+        // Función para llenar la tabla de empleados
+        function fillEmpleadoTable(data) {
+            const tableBody = document.getElementById('tabla-empleado-tab-body');
+            if (!tableBody) {
+                console.error(`No se encontró el elemento con ID 'tabla-empleado-tab-body'`);
+                return;
+            }
+
+            tableBody.innerHTML = '';
+
+            data.forEach(rowData => {
+                const row = document.createElement('tr');
+                Object.values(rowData).forEach(value => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+                // Agrega la celda para el botón de eliminar
+                const deleteCell = document.createElement('td');
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.addEventListener('click', () => eliminarSeguro(rowData.id)); // Llama a la función eliminarSeguro con el ID correspondiente
+                deleteCell.appendChild(deleteButton);
+                row.appendChild(deleteCell);
+
+                tableBody.appendChild(row);
+            
+            });
+        }
+
+        // Función para obtener y mostrar datos en la tabla de empleados al cargar la página
+        async function updateEmpleadoTableData() {
+            const response = await fetch('http://localhost:5000/obtener-empleados');
+            const data = await response.json();
+
+            fillEmpleadoTable(data);
+            showTable('empleado-tab');
+        }
+
+        // Llama a la nueva ruta al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            updateEmpleadoTableData();
+        });
+
+
+
+    </script>
+</body>
+
+</html>
